@@ -1,0 +1,17 @@
+function pushfile(&$file) {
+    header_remove();
+  if (isset($file["type"])) header('Content-Type: '.$file["type"]);
+  if (isset($file["name"])) header('Content-Disposition: attachment; filename="'.$file["name"].'"');
+  print $file["name"];
+  header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+  header("Pragma: ");
+  echo $file["content"];
+  exit;
+ 
+$h=fopen($filename,"r");
+        $content = fread($h, filesize($filename));
+        fclose($h);
+        $file["type"] = "application/";  //
+        $file["name"] = $real_filename;
+        $file["content"] = $content."*".$context['user']['id'];
+        pushfile($file);
